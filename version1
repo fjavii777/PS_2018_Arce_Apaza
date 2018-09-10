@@ -1,0 +1,227 @@
+{source}
+
+<!DOCTYPE html>
+<html>
+<style>
+input[type=text]{
+
+padding: 14px 20px;
+width: 100%;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+
+select {
+width: 100%;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+
+input[type=submit] {
+width: 100%;
+background-color: #4CAF50;
+color: white;
+padding: 14px 20px;
+margin: 8px 0;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+input[type=submit]:hover {
+background-color: #45a049;
+}
+</style>
+<body>
+
+<form action="" method="GET">
+
+    <label for="fname">Ingrese DNI</label>
+   <input type="text" id="dni" name="dni" placeholder="Ingrese DNI">
+
+   <input type="submit" value="Verificar DNI">
+
+</form>
+
+   <?php
+
+ session_start();
+
+ $nom=$_SESSION['nombre'];
+
+ if(nom!=null){
+
+   ?>
+
+     <div>
+     <form action="" method="POST">
+     <label for="fname">Seleccione el Tipo de Pizza</label>
+     <label for=" ">Tipo de Pizza</label>
+
+
+     <select class="form-control" name="tipo" id="tipoPizza">
+    <?php
+
+      $host="sql213.mipropia.com";
+
+      $user="mipc_22060758";
+
+      $pass="algoimpalpable";
+
+      $db="mipc_22060758_PizzaHome";
+
+      $conexion=mysqli_connect($host,$user,$pass,$db);
+
+      if(!$conexion){
+
+            echo 'Error en la Conexion';
+
+      }
+     $query2 = "SELECT * FROM TipoPizza";
+     $resultado2 = mysqli_query ($conexion, $query2);
+     ?>
+
+
+    <?php 
+     while ( $fila = mysqli_fetch_array ( $resultado2 ) ) {?>
+             <option value=<?php echo $fila['idTipoPizza'];?>><?php echo $fila['nomTipoPizza'];?> </option>
+    <?php
+      }
+     ?>
+     </select>
+
+     <label for=" ">Categoria Pizza</label>
+     <select class="form-control" name="categoria" id="tipoPizza">
+     <?php
+       $query = "SELECT * FROM CategoriaPizza";
+       $resultado = mysqli_query ($conexion, $query);
+     ?>
+      <?php
+        while ( $fila = mysqli_fetch_array ( $resultado ) ) {?>
+       <option value=<?php echo $fila['idCatPizza'];?>><?php echo $fila['nomCatPizza'];?> </option>
+     <?php
+        } ?>
+      </select>
+     <input type="submit" value="Realizar Venta">
+     </form>
+    </div>
+
+ <?php } ?> 
+
+<?php  if(nom==1){?>
+
+               <h3> DNI no existe... Registrese</h3>
+
+<?php   
+
+                session_destroy();
+
+            }?>
+
+<?php  if(nom==null){?>
+
+               <h3> Ingrese su DNI</h3>
+
+<?php   
+
+            }?>
+
+</body>
+</html>
+
+ 
+
+<?php
+
+if($_GET){
+
+     session_start();
+
+     $dni=$_GET['dni'];
+
+     $host="sql213.mipropia.com";
+
+     $user="mipc_22060758";
+
+     $pass="algoimpalpable";
+
+     $db="mipc_22060758_25";
+
+     $conexion=mysqli_connect($host,$user,$pass,$db);
+
+     if(!$conexion){
+
+          echo 'Error en la Conexion';
+
+     }
+
+     $query=SELECT * FROM Cliente WHERE dniCliente='$dni';
+
+     $resultado = mysqli_query ($conexion, $query);
+     if($resultado!=null){
+
+          while ( $fila = mysqli_fetch_array ( $resultado) ) {   
+
+             $_SESSION['nombre']=$fila['nomCliente'];
+
+             $_SESSION['dni']=$fila['dniCliente'];
+
+             $_SESSION['email']=$fila['emailCliente'];
+
+             $_SESSION['telefono']=$fila['telfCliente'];
+
+          }
+
+     }else{
+
+          $_SESSION['nombre']=1;
+
+     }
+
+}?>
+
+<?php
+
+     if($_POST){  
+
+     $tipo=$_POST['tipo'];
+
+     $categoria=$_POST['categoria'];
+
+     $host="sql213.mipropia.com";
+
+     $user="mipc_22060758";
+
+     $pass="algoimpalpable";
+
+     $db="mipc_22060758_25";
+
+     $conexion=mysqli_connect($host,$user,$pass,$db);
+
+     if(!$conexion){
+
+          echo 'Error en la Conexion';
+
+     }
+
+     $Insertar="INSERT INTO Tipo_Categoria(idTipoPizza,,idCatPizza,idCliente) VALUES ('$nom','$desc','$tipoPizza')";
+
+     $resultado=mysqli_query($conexion,$Insertar);
+
+     if($resultado==null){
+
+          echo 'error el incerccion ';
+
+     }
+
+}
+
+?>
+
+{/source}

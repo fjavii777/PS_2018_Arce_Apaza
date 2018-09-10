@@ -1,0 +1,141 @@
+{source}
+
+<!DOCTYPE html>
+<html>
+<style>
+input[type=text]{
+
+padding: 14px 20px;
+width: 100%;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+
+select {
+width: 100%;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+
+input[type=submit] {
+width: 100%;
+background-color: #4CAF50;
+color: white;
+padding: 14px 20px;
+margin: 8px 0;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+input[type=submit]:hover {
+background-color: #45a049;
+}
+</style>
+<body>
+
+<h3>Using CSS to style an HTML Form</h3>
+
+<div>
+<form action="" method="POST">
+<label for="fname">Nombre de Categoria</label>
+<input type="text" id="fname" name="nombre" placeholder="Nombre de Categoria">
+
+<label for="fname">Descripcion de Categoria</label>
+<input type="text" id="paterno" name="desc" placeholder="Descripcion de Categoria">
+
+<label for="fname">Precio Categoria</label>
+<input type="text" id="precio" name="precio" placeholder="Precio de Categoria">
+
+</select>
+<label for=" ">Tipos</label>
+<select class="form-control" name="tipoPizza" id="tipoPizza">
+<?php
+
+$host="sql213.mipropia.com";
+
+$user="mipc_22060758";
+
+$pass="algoimpalpable";
+
+$db="mipc_22060758_25";
+
+$conexion=mysqli_connect($host,$user,$pass,$db);
+
+if(!$conexion){
+
+echo 'Error en la Conexion';
+
+}
+$query2 = "SELECT * FROM TipoPizza";
+$resultado2 = mysqli_query ($conexion, $query2);
+?>
+<?php
+while ( $fila = mysqli_fetch_array ( $resultado2 ) ) {?>
+<option value=<?php echo $fila['idTipoPizza'];?>><?php echo $fila['nomTipoPizza'];?> </option>
+<?php
+}
+?>
+</select>
+<input type="submit" value="Categoria Registrada">
+</form>
+</div>
+
+</body>
+</html>
+
+ 
+
+<?php
+
+if($_POST){
+
+$nom=$_POST['nombre'];
+
+$desc=$_POST['desc'];
+
+$tipoPizza=$_POST['tipoPizza'];
+
+$host="sql213.mipropia.com";
+
+$user="mipc_22060758";
+
+$pass="algoimpalpable";
+
+$db="mipc_22060758_25";
+
+$conexion=mysqli_connect($host,$user,$pass,$db);
+
+if(!$conexion){
+
+echo 'Error en la Conexion';
+
+}
+
+$Insertar="INSERT INTO CategoriaPizza(nomCategoriaPizza,descCategoriaPizza,idTipoPizza) VALUES ('$nom','$desc','$tipoPizza')";
+
+$resultado=mysqli_query($conexion,$Insertar);
+
+if($resultado==null){
+
+   echo 'error el incerccion ';
+
+}
+
+ 
+
+}
+
+ 
+
+ 
+
+?>
+
+{/source}

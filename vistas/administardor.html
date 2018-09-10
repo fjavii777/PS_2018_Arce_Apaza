@@ -1,0 +1,300 @@
+<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>prueba</title>
+<!-- Bootstrap -->
+<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+ <!--[if lt IE 9]>
+     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- start plugins -->
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/estilo.css">
+	
+	<script src="js/jquery.js"></script>	
+	
+	<script>
+		$(document).ready(function() {
+    $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
+        e.preventDefault();
+        $(this).siblings('a.active').removeClass("active");
+        $(this).addClass("active");
+        var index = $(this).index();
+        $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
+        $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
+    });
+    $('#comprobar').click(function(event) {
+			$("#msgNom").fadeOut();
+			$("#msgApe").fadeOut();
+			$("#msgEdad").fadeOut();
+			$("#msgEma").fadeOut();
+			$("#msgNick").fadeOut();
+			$("#msgPass").fadeOut();
+			$("#msgPass2").fadeOut();
+			$("#respuesta").fadeOut();
+			$("#msgNick2").fadeOut();
+			var nickVar = $('#nick').val();
+			 if(nickVar.trim() == "" ){
+                 $("#msgNick").fadeIn("slow");
+                 return false;
+             }
+             else{
+            	 $("#msgNick2").fadeOut();
+            	 $.post('comprobarUser', {
+						nick: nickVar
+					}, function(responseText) {
+						$("#msgNick2").fadeIn("slow");
+						$('#msgNick2').html(responseText);
+					});
+            	 
+                 }
+			
+		});//click
+    	$('#registrar').click(function(event) {
+			$("#msgNom").fadeOut();
+			$("#msgApe").fadeOut();
+			$("#msgEdad").fadeOut();
+			$("#msgEma").fadeOut();
+			$("#msgNick").fadeOut();
+			$("#msgNick2").fadeOut();
+			$("#msgPass").fadeOut();
+			$("#msgPass2").fadeOut();
+			$("#respuesta").fadeOut();
+			var nombreVar = $('#nombre').val();
+			var apellidoVar = $('#apellido').val();
+			var edadVar = $('#edad').val();
+			var emailVar = $('#email').val();
+			var nickVar = $('#nick').val();
+			var passVar = $('#password').val();
+			var rpassVar = $('#rpassword').val();
+			 // --- Condicionales anidados ----
+            //Si nombre está vacío
+            //Muestra el mensaje
+            //Con false sale de los if's y espera a que sea pulsado de nuevo el botón de enviar
+            if(nombreVar.trim() == ""){
+                $("#msgNom").fadeIn("slow");
+                return false;
+            }
+            //en otro caso, el mensaje no se muestra
+            else{
+                $("#msgNom").fadeOut();
+
+                //Si correo está vacío y la expresión NO corresponde -test es función de JQuery
+                //Muestra el mensaje
+                //Con false sale de los if's y espera a que sea pulsado de nuevo el botón de enviar
+                if(apellidoVar.trim() == ""){
+                    $("#msgApe").fadeIn("slow");
+                    return false;
+                }
+                else{
+                    $("#msgApe").fadeOut();
+
+                    if(edadVar.trim() == "" || !expr2.test(edadVar)){
+                        $("#msgEdad").fadeIn("slow");
+                        return false;
+                    }
+                    else{
+                        $("#msgEdad").fadeOut();
+
+                        if(emailVar.trim() == "" || !expr.test(emailVar)){
+                            $("#msgEma").fadeIn("slow");
+                            return false;
+                        }else{
+                        	$("#msgEma").fadeOut();
+                        	
+                        	if(nickVar.trim() == ""){
+                        		$("#msgNick").fadeIn("slow");
+                        		return false;
+                        	}else{
+                        		$("#msgNick").fadeOut();
+                        		if(passVar.trim() == ""){
+                        			$("#msgPass").fadeIn("slow");
+                        			return false;
+                        		}else{
+                        			$("#msgPass").fadeOut();
+                        			if(rpassVar != passVar){
+                            			$("#msgPass2").fadeIn("slow");
+                            			return false;
+                            		}else{
+                            			$("#msgPass2").fadeOut();
+                        			// Si en vez de por post lo queremos hacer por get, cambiamos el $.post por $.get
+                    					$.post('crearUsuario', {
+                    						nombre : nombreVar,
+                    						apellido: apellidoVar,
+                    						edad: edadVar,
+                    						email: emailVar,
+                    						nick: nickVar,
+                    						password: passVar
+                    					}, function(responseText) {
+                    						$("#respuesta").fadeIn("slow");
+                    						$('#respuesta').html(responseText);
+                    						$(":text").each(function(){	
+                    							$($(this)).val('');
+                    					});
+                    						$(":password").each(function(){	
+                    							$($(this)).val('');
+                    					});
+                    					});
+                            		}
+                        			
+                        		}
+                        	}
+                        }
+                    }
+                }
+            }
+	
+
+        });//click
+});
+
+		
+	</script>
+		 <style>
+  .carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 100%;
+      margin: auto;
+  }
+
+  /*  bhoechie tab */
+
+div.bhoechie-tab div.bhoechie-tab-content:not(.active){
+  display: none;
+}
+  </style>
+<!----font-Awesome----->
+   	<link rel="stylesheet" href="fonts/css/font-awesome.min.css">
+<!----font-Awesome----->
+</head>
+<body>
+<div class="header_bg1">
+<div class="container">
+	<div class="row header">
+		<div class="logo navbar-left">
+			<h1><a href="inicio.html">EL DRAGONCITO </a></h1>
+		</div>
+		
+		<div class="clearfix"></div>
+	</div>
+	<div class="row h_menu">
+		<nav class="navbar navbar-default navbar-left" role="navigation">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+		    </div>
+		    <!-- Collect the nav links, forms, and other content for toggling -->
+		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		      <ul class="nav navbar-nav">
+		        <li ><a href="inicio.html">INICIO</a></li>
+		        <li><a href="menu.html">MENUS</a></li>
+		        <li><a href="conocenos.html">CONOCENOS</a></li>
+		        <li   ><a href="calificanos.html">CALIFICANOS</a></li>
+		        <li><a href="contactos.html">CONTACTANOS</a></li>
+		        <li class="active" ><a href="administardor.html">ADMINISTRADOR</a></li>
+
+		      </ul>
+		    </div><!-- /.navbar-collapse -->
+		    <!-- start soc_icons -->
+		</nav>
+		
+	</div>
+	<div class="clearfix"></div>
+</div>
+</div>
+<!--Perfil-->
+	<section class="main-ini container">
+		<div class="row">
+			<br>
+			<section class="posts col-md-4">
+				
+				 <div class="profile-header-container">   
+    				<div class="profile-header-img">
+                		<img class="img-circle" src="images/img1.jpg" />
+                	<!-- badge -->
+                	<div class="rank-label-container">
+                    	<span class="label label-default rank-label">Administrador....</span>
+                	</div>
+            		</div>
+        		</div>
+			</section>
+			<section class="posts col-md-8">
+				<h2>Informacion</h2>
+			</section>
+		</div>
+	</section>
+	<!--Perfil-->
+
+	<br>
+
+	<br>
+
+	<section class="main-ini container">
+	
+		<div class="row">
+			<div class="posts col-md-12 bhoechie-tab-container">
+	            <div class="posts col-md-3 bhoechie-tab-menu">
+	              <div class="list-group">
+	                <a href="#" class="list-group-item  text-center">
+	                  <br/>Empleados
+	                </a>
+	                <a href="#" class="list-group-item text-center">
+	                  <br/>Mesas
+	                </a>
+	                <a href="#" class="list-group-item text-center">
+	                  <br/>Productos</a>
+	                <a href="#" class="list-group-item text-center">
+	              
+	                  <br/>Proovedor</a>
+	                <a href="#" class="list-group-item active text-center">
+	                  <br/>Platos
+	                </a>
+	                <a href="#" class="list-group-item text-center">
+	                  <br/>Ventas
+	                </a>
+	            </div>
+	        </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
+                <!-- flight section --> 
+                <!-- train section -->
+                <!-- hotel search -->
+                
+                <!-- Contenido aqui va todoo -->                    
+                <h1>Hola me  llamo Julio  xD</h1>     
+				<!--  -->
+
+            </div>
+        </div>		
+		</div>
+</section>			
+			
+<div class="footer_bg"><!-- start footer -->
+	<div class="container">
+		<div class="row  footer">
+			<div class="copy text-center">
+				<p class="link"><span>&#169; reserva | ssss&nbsp;<a href="#"> el dragoncito</a></span></p>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
