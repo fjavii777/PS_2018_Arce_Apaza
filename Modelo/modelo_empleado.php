@@ -8,6 +8,7 @@ function InsertarEmpleado($EmpNom,$EmpCon,$EmpEda,$EmpCor,$EmpTel,$EmpDni,$EmpDi
 	return $query;
 }
 ?>
+<!--   Se cambio-->
 <?php 
 function EliminarEmpleado($id_empleado){
 	$con = conectar();
